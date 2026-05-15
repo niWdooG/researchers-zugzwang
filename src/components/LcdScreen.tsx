@@ -31,31 +31,31 @@ export function LcdScreen({ score, strikes, level, items, playerPosition, gameOv
   const renderScientist = () => {
     const isActive = isPlaying && !gameOver && !isPaused;
     
-    // FIXED: Uses percentage (15%) for mobile so it fits the small screen perfectly, returns to 100px on PC
+    // FIXED: Scientist is shrunken heavily on mobile (w-[60px]) but kept perfectly at w-[100px] on PC
     return (
       <div className="absolute inset-0 pointer-events-none w-full h-full z-10">
         <img 
           src={scientistTL} 
           alt="Scientist Top Left"
-          className={`absolute w-[15%] sm:w-[100px] transition-opacity duration-75 ${playerPosition === 'TL' && isActive ? 'opacity-100' : 'opacity-[0.08]'}`} 
+          className={`absolute w-[60px] sm:w-[100px] transition-opacity duration-75 ${playerPosition === 'TL' && isActive ? 'opacity-100' : 'opacity-[0.08]'}`} 
           style={{ bottom: '15%', left: '35%', transform: 'translateX(-50%)', filter: 'brightness(0) saturate(100%)' }} 
         />
         <img 
           src={scientistBL} 
           alt="Scientist Bottom Left"
-          className={`absolute w-[15%] sm:w-[100px] transition-opacity duration-75 ${(playerPosition === 'BL' || playerPosition === 'CENTER') && isActive ? 'opacity-100' : 'opacity-[0.08]'}`} 
+          className={`absolute w-[60px] sm:w-[100px] transition-opacity duration-75 ${(playerPosition === 'BL' || playerPosition === 'CENTER') && isActive ? 'opacity-100' : 'opacity-[0.08]'}`} 
           style={{ bottom: '15%', left: '35%', transform: 'translateX(-50%)', filter: 'brightness(0) saturate(100%)' }} 
         />
         <img 
           src={scientistTR} 
           alt="Scientist Top Right"
-          className={`absolute w-[15%] sm:w-[100px] transition-opacity duration-75 ${playerPosition === 'TR' && isActive ? 'opacity-100' : 'opacity-[0.08]'}`} 
+          className={`absolute w-[60px] sm:w-[100px] transition-opacity duration-75 ${playerPosition === 'TR' && isActive ? 'opacity-100' : 'opacity-[0.08]'}`} 
           style={{ bottom: '15%', left: '65%', transform: 'translateX(-50%)', filter: 'brightness(0) saturate(100%)' }} 
         />
         <img 
           src={scientistBR} 
           alt="Scientist Bottom Right"
-          className={`absolute w-[15%] sm:w-[100px] transition-opacity duration-75 ${playerPosition === 'BR' && isActive ? 'opacity-100' : 'opacity-[0.08]'}`} 
+          className={`absolute w-[60px] sm:w-[100px] transition-opacity duration-75 ${playerPosition === 'BR' && isActive ? 'opacity-100' : 'opacity-[0.08]'}`} 
           style={{ bottom: '15%', left: '65%', transform: 'translateX(-50%)', filter: 'brightness(0) saturate(100%)' }} 
         />
       </div>
@@ -101,8 +101,8 @@ export function LcdScreen({ score, strikes, level, items, playerPosition, gameOv
             className="absolute transition-all duration-75 z-10"
             style={{ left: `${point.x}%`, top: `${point.y}%`, transform: 'translate(-50%, -50%)' }}
           >
-            {/* FIXED: Scales down to w-[6%] on mobile, restores to w-8 on PC */}
-            {renderItem(itemType, `w-[6%] h-auto sm:w-8 sm:h-8 text-[#2d3436] transition-opacity duration-75 ${activeItem && !isPaused ? 'opacity-100' : 'opacity-[0.08]'}`)}
+            {/* FIXED: Items are shrunken heavily on mobile (w-5 h-5) but kept perfectly at w-8 h-8 on PC */}
+            {renderItem(itemType, `w-5 h-5 sm:w-8 sm:h-8 text-[#2d3436] transition-opacity duration-75 ${activeItem && !isPaused ? 'opacity-100' : 'opacity-[0.08]'}`)}
           </div>
         );
       });
@@ -125,21 +125,21 @@ export function LcdScreen({ score, strikes, level, items, playerPosition, gameOv
       
       <div className="absolute inset-0 opacity-10 pointer-events-none bg-[radial-gradient(circle,#000_1px,transparent_1px)] bg-[size:4px_4px] z-0"></div>
       
-      {/* FIXED: Score is tiny on mobile (12px), large on PC (3xl) */}
+      {/* FIXED: Score is text-[14px] on mobile. Keeps text-3xl on PC */}
       <div className="absolute top-[2%] right-[3%] text-right z-20">
-        <div className="text-[12px] sm:text-3xl leading-none text-[#2d3436] font-vt323 font-bold tracking-widest">
+        <div className="text-[14px] sm:text-3xl leading-none text-[#2d3436] font-vt323 font-bold tracking-widest">
           {score.toString().padStart(6, '0')}
         </div>
       </div>
 
-      {/* FIXED: Lives are tiny on mobile (w-3), large on PC (w-6) */}
-      <div className="absolute top-[2%] left-[3%] flex space-x-0.5 sm:space-x-1 z-20">
+      {/* FIXED: Lives are w-3.5 h-3.5 on mobile. Keeps w-6 h-6 on PC */}
+      <div className="absolute top-[2%] left-[3%] flex space-x-[2px] sm:space-x-1 z-20">
         {[0, 1, 2].map((i) => (
           <div key={`life-${i}`} className={`transition-opacity duration-300 ${i >= strikes ? 'opacity-100' : 'opacity-[0.08]'}`}>
             <img 
                src={lifeSvg} 
                alt="Life" 
-               className="w-3 h-3 sm:w-6 sm:h-6"
+               className="w-3.5 h-3.5 sm:w-6 sm:h-6"
                style={{ filter: 'brightness(0) saturate(100%) opacity(0.85)' }}
             />
           </div>
@@ -149,18 +149,17 @@ export function LcdScreen({ score, strikes, level, items, playerPosition, gameOv
       {renderTracks()}
       {renderScientist()}
 
-      {/* FIXED: Level text scales correctly */}
-      <div className="absolute bottom-[2%] left-0 right-0 flex justify-center text-[#2d3436] font-sans text-[6px] sm:text-xs font-bold uppercase tracking-widest px-4 z-20">
-         <div className="flex items-center gap-1 sm:gap-2">
-            <div className="w-1 h-1 sm:w-2 sm:h-2 rounded-full bg-[#2d3436]"></div> 
+      <div className="absolute bottom-[2%] left-0 right-0 flex justify-center text-[#2d3436] font-sans text-[8px] sm:text-xs font-bold uppercase tracking-widest px-4 z-20">
+         <div className="flex items-center gap-[2px] sm:gap-2">
+            <div className="w-[3px] h-[3px] sm:w-2 sm:h-2 rounded-full bg-[#2d3436]"></div> 
             LEVEL {level}
          </div>
       </div>
 
       {isPaused && isPlaying && !gameOver && (
         <div className="absolute inset-0 bg-[#94a187]/60 flex flex-col items-center justify-center text-center z-50 backdrop-blur-[2px]">
-          <Pause className="w-[10%] h-auto sm:w-16 sm:h-16 text-[#2d3436] mb-2 sm:mb-4" />
-          <h2 className="text-[14px] sm:text-4xl font-bold text-[#2d3436] tracking-wide animate-pulse">PAUSED</h2>
+          <Pause className="w-8 h-8 sm:w-16 sm:h-16 text-[#2d3436] mb-2 sm:mb-4" />
+          <h2 className="text-xl sm:text-4xl font-bold text-[#2d3436] tracking-wide animate-pulse">PAUSED</h2>
         </div>
       )}
 
@@ -169,10 +168,10 @@ export function LcdScreen({ score, strikes, level, items, playerPosition, gameOv
           className="absolute inset-0 bg-[#94a187]/80 flex flex-col items-center justify-center text-center z-50 backdrop-blur-sm cursor-pointer" 
           onClick={(e) => { e.stopPropagation(); startGame(); }}
         >
-          <Frown className="w-[10%] h-auto sm:w-16 sm:h-16 text-[#2d3436] mb-1 sm:mb-4" />
-          <h2 className="text-[12px] sm:text-4xl font-bold text-[#2d3436] mb-1 sm:mb-2 uppercase tracking-wide">You perished!</h2>
-          <p className="text-[10px] sm:text-2xl text-[#2d3436] mb-2 sm:mb-4">You missed 3 duties.</p>
-          <div className="text-[8px] sm:text-xl text-[#2d3436] animate-pulse">Press START to try again.</div>
+          <Frown className="w-8 h-8 sm:w-16 sm:h-16 text-[#2d3436] mb-1 sm:mb-4" />
+          <h2 className="text-sm sm:text-4xl font-bold text-[#2d3436] mb-1 uppercase tracking-wide">You perished!</h2>
+          <p className="text-xs sm:text-2xl text-[#2d3436] mb-2">You missed 3 duties.</p>
+          <div className="text-[10px] sm:text-xl text-[#2d3436] animate-pulse">Press START to try again.</div>
         </div>
       )}
 
@@ -181,11 +180,11 @@ export function LcdScreen({ score, strikes, level, items, playerPosition, gameOv
           className="absolute inset-0 bg-[#94a187]/90 flex flex-col items-center justify-center text-center z-50 backdrop-blur-sm cursor-pointer" 
           onClick={(e) => { e.stopPropagation(); startGame(); }}
         >
-          <GraduationCap className="w-[10%] h-auto sm:w-16 sm:h-16 text-[#2d3436] mb-1 sm:mb-4" />
-          <h1 className="text-[12px] sm:text-4xl font-bold text-[#2d3436] mb-1 sm:mb-2 uppercase tracking-widest text-center leading-none">
-            Researcher's<br/>Zugzwang
+          <GraduationCap className="w-8 h-8 sm:w-16 sm:h-16 text-[#2d3436] mb-2 sm:mb-4" />
+          <h1 className="text-sm sm:text-4xl font-bold text-[#2d3436] mb-1 uppercase tracking-widest text-center leading-none">
+            Researcher's<br className="sm:hidden" /> Zugzwang
           </h1>
-          <div className="text-[8px] sm:text-2xl text-[#2d3436] animate-pulse rounded border sm:border-2 border-[#2d3436] px-2 py-1 sm:px-4 sm:py-2 bg-[#2d3436]/10 inline-block font-bold uppercase mt-2 sm:mt-8">
+          <div className="text-[10px] sm:text-2xl text-[#2d3436] animate-pulse rounded border border-[#2d3436] px-2 py-1 sm:px-4 sm:py-2 bg-[#2d3436]/10 inline-block font-bold uppercase mt-2 sm:mt-8">
             Press START
           </div>
         </div>
